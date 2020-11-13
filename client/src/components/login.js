@@ -24,7 +24,7 @@ const Login = ({ history }) => {
   };
   return (
     <Container>
-      <Row className="mt-5">
+      <Row className="mt-5 justify-content-center">
         <Col md={4} className="m-3 p-3">
           <Form>
             <h2>Login</h2>
@@ -34,7 +34,7 @@ const Login = ({ history }) => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 type="email"
-                placeholder="Email"
+                placeholder="demo@example.com"
               ></Form.Control>
             </Form.Group>
             <Form.Group>
@@ -43,13 +43,18 @@ const Login = ({ history }) => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 type="password"
-                placeholder="Password"
+                placeholder="password"
               ></Form.Control>
             </Form.Group>
             <Button onClick={loginHandler} className="btn-block btn-warning">
               Login
             </Button>
           </Form>
+          <LinkContainer className="mt-3" to="/forgot-password">
+            <Button className="btn-block" variant="outline-secondary">
+              Forgot Password?
+            </Button>
+          </LinkContainer>
           <LinkContainer className="mt-3" to="/register">
             <Button className="btn-block" variant="outline-secondary">
               Don't have account? Register now!

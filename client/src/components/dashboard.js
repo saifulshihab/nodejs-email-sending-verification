@@ -92,7 +92,7 @@ const Dashboard = ({ history }) => {
     <Container>
       <Row className="p-3" style={{ backgroundColor: 'rgb(230 230 230)' }}>
         <Col md={11}>
-          <h1>Hi, {userInfo && userInfo.email}, WelCome BacK!</h1>
+          <h1>WelCome BacK! {userInfo && userInfo.email}</h1>
         </Col>
         <Col md={1}>
           <Button variant="outline-danger" onClick={logoutHandler}>

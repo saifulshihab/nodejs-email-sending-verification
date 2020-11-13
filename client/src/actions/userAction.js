@@ -22,7 +22,7 @@ export const registerUser = (email, password) => async (dispatch) => {
       },
     };
 
-    await axios.post(
+    const { data } = await axios.post(
       `${baseURL}/api/users/register`,
       { email, password },
       config
@@ -30,6 +30,7 @@ export const registerUser = (email, password) => async (dispatch) => {
 
     dispatch({
       type: USER_REGISTER_SUCCESS,
+      payload: data.message,
     });
   } catch (error) {
     dispatch({

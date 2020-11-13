@@ -12,7 +12,7 @@ const Register = () => {
   const [password, setPassword] = useState('');
 
   const userRegister = useSelector((state) => state.userRegister);
-  const { loading, error, success } = userRegister;
+  const { loading, error, success, message } = userRegister;
 
   useEffect(() => {}, [success]);
 
@@ -22,7 +22,7 @@ const Register = () => {
 
   return (
     <Container>
-      <Row className="mt-5">
+      <Row className="mt-5 justify-content-center">
         <Col md={4} className="m-3 p-3">
           <Form>
             <h2>Register</h2>
@@ -61,9 +61,7 @@ const Register = () => {
             <Col>
               {loading && <Loader />}
               {error && <Alert variant="danger">{error}</Alert>}
-              {success && (
-                <Alert variant="success">Register Successfull!</Alert>
-              )}
+              {success && <Alert variant="success">{message}</Alert>}
             </Col>
           </Row>
         </Col>
