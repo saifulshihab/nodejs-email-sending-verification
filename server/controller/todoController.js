@@ -70,3 +70,24 @@ export const incompleteTodo = asyncHandler(async (req, res) => {
     throw new Error('Items not found!');
   }
 });
+
+export const editTodo = asyncHandler(async (req, res) => {
+  const todo = await Todo.findById(req.params.id);
+  if (todo) {
+    const { title, description } = req.body;
+    if (title.trim() === '' || description.trim() === '') {
+      res.status(404);
+      throw new Error('Title or Description can not be blank!');
+    } else {
+      todo.title = title || todo.title;
+      todo.description = description || todo.description;
+      const updatedTodo = await todo.save();
+      if (updatedTodo) {
+        res.status(200).json(updatedTodo);
+      }
+    }
+  } else {
+    res.status(404);
+    throw new Error('Items not found!');
+  }
+});

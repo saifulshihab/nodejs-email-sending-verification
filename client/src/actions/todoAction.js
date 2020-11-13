@@ -12,6 +12,9 @@ import {
   TODO_INCOMPLETE_FAIL,
   TODO_DELETE,
   TODO_DELETE_FAIL,
+  TODO_UPDATE_REQUEST,
+  TODO_UPDATE_SUCCESS,
+  TODO_UPDATE_FAIL,
 } from '../constants/todoConstant';
 import { baseURL } from '../shared/baseURL';
 
@@ -131,6 +134,34 @@ export const deleteTodo = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: TODO_DELETE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const editTodo = (id, title, description) => async (dispatch) => {
+  try {
+    dispatch({ type: TODO_UPDATE_REQUEST });
+
+    const config = {
+      headers: {},
+    };
+
+    await axios.put(
+      `${baseURL}/api/todos/${id}`,
+      { title, description },
+      config
+    );
+
+    dispatch({
+      type: TODO_UPDATE_SUCCESS,
+    });
+  } catch (error) {
+    dispatch({
+      type: TODO_UPDATE_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

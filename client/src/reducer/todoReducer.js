@@ -14,6 +14,10 @@ import {
   TODO_COMPLETE_RESET,
   TODO_INCOMPLETE_RESET,
   TODO_DELETE_RESET,
+  TODO_UPDATE_REQUEST,
+  TODO_UPDATE_SUCCESS,
+  TODO_UPDATE_FAIL,
+  TODO_UPDATE_RESET,
 } from '../constants/todoConstant';
 
 export const todoItemsReducer = (state = { todos: [] }, action) => {
@@ -75,6 +79,21 @@ export const todoDeleteReducer = (state = {}, action) => {
     case TODO_DELETE_FAIL:
       return { error: action.payload };
     case TODO_DELETE_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const todoEditReducer = (state = {}, action) => {
+  switch (action.type) {
+    case TODO_UPDATE_REQUEST:
+      return { loading: true };
+    case TODO_UPDATE_SUCCESS:
+      return { loading: false, success: true };
+    case TODO_UPDATE_FAIL:
+      return { error: action.payload };
+    case TODO_UPDATE_RESET:
       return {};
     default:
       return state;

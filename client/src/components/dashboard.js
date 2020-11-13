@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, Button, Col, Container, Form, Row } from 'react-bootstrap';
+import {
+  Alert,
+  Button,
+  Col,
+  Container,
+  Form,
+  Modal,
+  Row,
+} from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutUser } from '../actions/userAction';
 import {
@@ -8,12 +16,14 @@ import {
   completeTodo,
   incompleteTodo,
   deleteTodo,
+  editTodo,
 } from '../actions/todoAction';
 import Loader from './loader';
 import {
   TODO_COMPLETE_RESET,
   TODO_DELETE_RESET,
   TODO_INCOMPLETE_RESET,
+  TODO_UPDATE_RESET,
 } from '../constants/todoConstant';
 
 const Dashboard = ({ history }) => {
@@ -21,6 +31,12 @@ const Dashboard = ({ history }) => {
 
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
+
+  const [todoId, setTodoId] = useState('');
+  const [updateTitle, setupdateTitle] = useState('');
+  const [updateDesc, setupdateDesc] = useState('');
+
+  const [show, setShow] = useState(false);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -44,6 +60,9 @@ const Dashboard = ({ history }) => {
   const todoDelete = useSelector((state) => state.todoDelete);
   const { success: deleteSuccess } = todoDelete;
 
+  const todoEdit = useSelector((state) => state.todoEdit);
+  const { success: editSuccess } = todoEdit;
+
   useEffect(() => {
     if (!userInfo) {
       history.push('/login');
@@ -63,6 +82,7 @@ const Dashboard = ({ history }) => {
     completeSuccess,
     incompleteSuccess,
     deleteSuccess,
+    editSuccess,
   ]);
 
   const logoutHandler = () => {
@@ -87,6 +107,30 @@ const Dashboard = ({ history }) => {
     dispatch(deleteTodo(id));
     dispatch({ type: TODO_DELETE_RESET });
   };
+
+  const editTodoHandler = () => {
+    dispatch(editTodo(todoId, updateTitle, updateDesc));
+    dispatch({ type: TODO_UPDATE_RESET });
+    setShow(false);
+  };
+
+  const findTodoItem = (id) => {
+    if (todos) {
+      todos.map((d) => {
+        if (d._id === id) {
+          setTodoId(d._id);
+          setupdateTitle(d.title);
+          setupdateDesc(d.description);
+        }
+      });
+    }
+  };
+
+  const handleShow = (id) => {
+    findTodoItem(id);
+    setShow(true);
+  };
+  const handleClose = () => setShow(false);
 
   return (
     <Container>
@@ -192,6 +236,12 @@ const Dashboard = ({ history }) => {
                       >
                         <i className="fas fa-trash"></i>
                       </Button>
+                      <Button
+                        onClick={() => handleShow(todo._id)}
+                        variant="outline-info"
+                      >
+                        <i className="fas fa-edit"></i>
+                      </Button>
                     </td>
                   </tr>
                 ))}
@@ -204,6 +254,38 @@ const Dashboard = ({ history }) => {
           )}
         </Col>
       </Row>
+      <Modal show={show} onHide={handleClose} animation={false} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Update To Do</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group>
+              <Form.Label>Title</Form.Label>
+              <Form.Control
+                placeholder="Enter a title"
+                value={updateTitle}
+                onChange={(e) => setupdateTitle(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Description</Form.Label>
+              <Form.Control
+                as="textarea"
+                row={3}
+                placeholder="To Do description"
+                value={updateDesc}
+                onChange={(e) => setupdateDesc(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={editTodoHandler} className="btn-block">
+            UPDATE
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 };

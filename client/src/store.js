@@ -6,6 +6,7 @@ import {
   addTodoItemReducer,
   todoCompleteReducer,
   todoDeleteReducer,
+  todoEditReducer,
   todoInCompleteReducer,
   todoItemsReducer,
 } from './reducer/todoReducer';
@@ -26,6 +27,7 @@ const reducer = combineReducers({
   todoComplete: todoCompleteReducer,
   todoInComplete: todoInCompleteReducer,
   todoDelete: todoDeleteReducer,
+  todoEdit: todoEditReducer,
 });
 
 const middleware = [thunk];
