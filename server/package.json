@@ -1,0 +1,22 @@
+{
+  "name": "email-sending",
+  "version": "1.0.0",
+  "description": "Email send using Nodemailer",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon index"
+  },
+  "author": "Saiful Islam Shihab",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "email-validator": "^2.0.4",
+    "express": "^4.17.1",
+    "express-async-handler": "^1.1.4",
+    "mongoose": "^5.10.13",
+    "nodemailer": "^6.4.15",
+    "nodemon": "^2.0.6"
+  }
+}
