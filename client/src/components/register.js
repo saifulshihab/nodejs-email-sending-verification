@@ -23,7 +23,7 @@ const Register = () => {
   return (
     <Container>
       <Row className="mt-5 justify-content-center">
-        <Col md={4} className="m-3 p-3">
+        <Col md={4} className="m-3 p-3" style={{border: '1px solid #ddd'}}>
           <Form>
             <h2>Register</h2>
             <Form.Group>

@@ -8,7 +8,7 @@ const ForgotPassword = () => {
   return (
     <Container>
       <Row className="mt-5 justify-content-center">
-        <Col md={4} className="m-3 p-3">
+        <Col md={4} className="m-3 p-3" style={{border: '1px solid #ddd'}}>
           <Form>
             <h2>Recover Password</h2>
             <Form.Group>
@@ -24,7 +24,7 @@ const ForgotPassword = () => {
               onClick={'registerHandler'}
               className="btn-block btn-warning"
             >
-              Recover
+              Get Reset Link
             </Button>
           </Form>
           <LinkContainer className="mt-3" to="/login">
