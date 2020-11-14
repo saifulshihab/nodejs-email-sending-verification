@@ -63,9 +63,7 @@ const Login = ({ history }) => {
           <Row className="mt-3">
             <Col>
               {loading && <Loader />}
-              {error && (
-                <Alert variant="danger">{`Invalid Email or Password!`}</Alert>
-              )}
+              {error && <Alert variant="danger">{error}</Alert>}
             </Col>
           </Row>
         </Col>

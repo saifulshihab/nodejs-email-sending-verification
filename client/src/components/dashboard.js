@@ -116,7 +116,7 @@ const Dashboard = ({ history }) => {
 
   const findTodoItem = (id) => {
     if (todos) {
-      todos.map((d) => {
+      todos.forEach((d) => {
         if (d._id === id) {
           setTodoId(d._id);
           setupdateTitle(d.title);
