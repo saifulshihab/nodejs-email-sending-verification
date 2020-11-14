@@ -136,7 +136,7 @@ const Dashboard = ({ history }) => {
     <Container>
       <Row className="p-3" style={{ backgroundColor: 'rgb(230 230 230)' }}>
         <Col md={11}>
-          <h1>WelCome BacK! {userInfo && userInfo.email}</h1>
+          <h2>WelCome BacK! {userInfo && userInfo.email}</h2>
         </Col>
         <Col md={1}>
           <Button variant="outline-danger" onClick={logoutHandler}>
@@ -188,8 +188,8 @@ const Dashboard = ({ history }) => {
                 <th style={{ width: '60%' }} scope="col">
                   Description
                 </th>
-                <th style={{ textAlign: 'center' }} scope="col">
-                  Complete/Incomplete/Delete
+                <th style={{ textAlign: 'center', width: '20%' }} scope="col">
+                  Complete/Incomplete/Edit/Delete
                 </th>
               </tr>
             </thead>
@@ -213,7 +213,7 @@ const Dashboard = ({ history }) => {
                         <td style={{ width: '60%' }}>{todo.description}</td>
                       </>
                     )}
-                    <td style={{ textAlign: 'center' }}>
+                    <td style={{ textAlign: 'center', width: '20%' }}>
                       <Button
                         onClick={() => completeHandler(todo._id)}
                         className="mr-1"
@@ -223,24 +223,25 @@ const Dashboard = ({ history }) => {
                         <i className="fas fa-check"></i>
                       </Button>
                       <Button
+                        className="mr-1"
                         disabled={!todo.done && true}
                         onClick={() => incompleteHandler(todo._id)}
                         variant="outline-secondary"
                       >
                         <i className="fas fa-times"></i>
-                      </Button>{' '}
-                      <Button
-                        onClick={() => deleteHandler(todo._id)}
-                        className="mr-1"
-                        variant="outline-danger"
-                      >
-                        <i className="fas fa-trash"></i>
                       </Button>
                       <Button
+                        className="mr-1"
                         onClick={() => handleShow(todo._id)}
                         variant="outline-info"
                       >
                         <i className="fas fa-edit"></i>
+                      </Button>
+                      <Button
+                        onClick={() => deleteHandler(todo._id)}
+                        variant="outline-danger"
+                      >
+                        <i className="fas fa-trash"></i>
                       </Button>
                     </td>
                   </tr>
@@ -251,6 +252,11 @@ const Dashboard = ({ history }) => {
             <Loader />
           ) : (
             errorItems && <Alert variant="danger">{errorItems}</Alert>
+          )}
+          {todos && todos.length === 0 && (
+            <Alert variant="danger">
+              <i className="fas fa-exclamation-triangle"></i> No Items!
+            </Alert>
           )}
         </Col>
       </Row>
