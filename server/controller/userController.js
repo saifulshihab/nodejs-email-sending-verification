@@ -49,7 +49,7 @@ export const userRegister = asyncHandler(async (req, res) => {
         }).format(new Date());
 
         res.status(201).json({
-          status: 'Registration successfull!',
+          status: 'Registration successful!',
           message: `An email was sent to ${email} at ${date}. Please check your email for verification.`,
         });
       } else {
@@ -69,7 +69,7 @@ export const userRegister = asyncHandler(async (req, res) => {
 export const userLogin = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email: email });
-  if (user && (await user.password) === password) {
+  if (user && (await user.matchPassword(password))) {
     if (user.confirmed) {
       res.status(200);
       res.json({
