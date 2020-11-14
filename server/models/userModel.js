@@ -11,7 +11,10 @@ const UserSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    confirmed: false,
+    confirmed: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
