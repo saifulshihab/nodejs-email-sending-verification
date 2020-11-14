@@ -5,6 +5,7 @@ import connectDB from './config/dbConnect.js';
 import userRoutes from './routes/userRoutes.js';
 import todoRoutes from './routes/todoRoutes.js';
 import dotenv from 'dotenv';
+import morgan from 'morgan';
 
 dotenv.config();
 connectDB();
@@ -18,6 +19,11 @@ app.use(express.json());
 app.get('/', (req, res) => {
   res.send('Server is running....');
 });
+
+//morgan
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
 
 //routes
 app.use('/api/users', userRoutes);

@@ -3,6 +3,7 @@ import asyncHandler from 'express-async-handler';
 import emailValidator from 'email-validator';
 import nodemailer from 'nodemailer';
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
 
 export const userRegister = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -24,7 +25,7 @@ export const userRegister = asyncHandler(async (req, res) => {
           pass: process.env.PASS,
         },
       });
-      // async email
+
       const token = jwt.sign({ id: user._id }, process.env.EMAIL_SECRET, {
         expiresIn: '1d',
       });
@@ -94,6 +95,76 @@ export const userEmailVerify = asyncHandler(async (req, res) => {
     } else {
       res.status(404);
       throw new Error('User not found!');
+    }
+  } else {
+    res.status(404);
+    throw new Error('User not found!');
+  }
+});
+
+export const getResetPasswordLink = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+  const user = await User.findOne({ email: email });
+  if (user) {
+    const transporter = nodemailer.createTransport({
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true,
+      auth: {
+        user: process.env.EMAIL,
+        pass: process.env.PASS,
+      },
+    });
+
+    const token = await jwt.sign({ id: user._id }, process.env.EMAIL_SECRET, {
+      expiresIn: '30min',
+    });
+
+    const url = `http://localhost:3000/createNewPassword/${token}`;
+
+    const emailSent = await transporter.sendMail({
+      from: 'littlebitprogrammer@gmail.com',
+      to: email,
+      subject: 'Reset Password',
+      text: 'Reset your password for React ToDo app.',
+      html: `<p>Please click this link to reset password. <a href="${url}">${url}</a></p>`,
+    });
+    if (emailSent) {
+      res.status(201).json({
+        status: 'Password reset email sent.',
+        message: `Password reset link was sent to ${email}.`,
+      });
+    } else {
+      res.status(403);
+      throw new Error('Password reset failed, Email sending failed!');
+    }
+  } else {
+    res.status(403);
+    throw new Error('There is no account associated with this email!');
+  }
+});
+
+export const resetPassword = asyncHandler(async (req, res) => {
+  const { id } = jwt.verify(req.params.token, process.env.EMAIL_SECRET);
+  if (id) {
+    let { newPass, conPass } = req.body;
+    if (newPass === conPass) {
+      const salt = await bcrypt.genSalt(10);
+      newPass = await bcrypt.hash(newPass, salt);
+      const updatedUser = await User.findByIdAndUpdate(id, {
+        password: newPass,
+      });
+      updatedUser.save();
+      if (updatedUser) {
+        res.status(200);
+        res.json({ status: 'Password reset successfully!' });
+      } else {
+        res.status(404);
+        throw new Error('Password reset failed!');
+      }
+    } else {
+      res.status(404);
+      throw new Error('Password does not match!');
     }
   } else {
     res.status(404);
