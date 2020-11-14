@@ -8,10 +8,11 @@ import {
   deleteTodo,
   editTodo,
 } from '../controller/todoController.js';
+import { protect } from '../middleware/authMiddleware.js';
 
-router.route('/').get(getAllTodo).post(addNewTodo);
-router.route('/:id').delete(deleteTodo).put(editTodo);
-router.route('/:id/complete').put(completeTodo);
-router.route('/:id/incomplete').put(incompleteTodo);
+router.route('/').get(protect, getAllTodo).post(protect, addNewTodo);
+router.route('/:id').delete(protect, deleteTodo).put(protect, editTodo);
+router.route('/:id/complete').put(protect, completeTodo);
+router.route('/:id/incomplete').put(protect, incompleteTodo);
 
 export default router;

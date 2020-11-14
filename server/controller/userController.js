@@ -4,6 +4,7 @@ import emailValidator from 'email-validator';
 import nodemailer from 'nodemailer';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+import generateToken from '../utils/generateToken.js';
 
 export const userRegister = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -75,6 +76,7 @@ export const userLogin = asyncHandler(async (req, res) => {
       res.status(200);
       res.json({
         email: user.email,
+        token: generateToken(user._id),
       });
     } else {
       res.status(403);

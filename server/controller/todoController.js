@@ -10,6 +10,7 @@ export const addNewTodo = asyncHandler(async (req, res) => {
     const todo = await Todo.create({
       title,
       description,
+      user: req.user._id,
     });
     if (todo) {
       res.status(201).json(todo);
@@ -21,21 +22,21 @@ export const addNewTodo = asyncHandler(async (req, res) => {
 });
 
 export const getAllTodo = asyncHandler(async (req, res) => {
-  const todos = await Todo.find({});
+  const todos = await Todo.find({ user: req.user._id });
   if (todos) {
     res.status(200).json(todos);
   } else {
     res.status(404);
-    throw new Error('Items not fetched!');
+    throw new Error('No items!');
   }
 });
 
 export const deleteTodo = asyncHandler(async (req, res) => {
   const todo = await Todo.findById(req.params.id);
   if (todo) {
-    const updatedItems = await Todo.findByIdAndRemove(req.params.id);
-    if (updatedItems) {
-      res.status(200).json(updatedItems);
+    const deletedItems = await Todo.findByIdAndRemove(req.params.id);
+    if (deletedItems) {
+      res.status(200).json(deletedItems);
     }
   } else {
     res.status(404);
