@@ -1,13 +1,25 @@
-import React, { useState } from 'react';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 import { LinkContainer } from 'react-router-bootstrap';
+import Loader from './loader';
+import { resetPassword } from '../actions/userAction';
 
-const CreateNewPassword = () => {
+const CreateNewPassword = ({ match }) => {
+  const dispatch = useDispatch();
+
   const [newPass, setNewPass] = useState('');
   const [conPass, setConPass] = useState('');
 
+  const token = match.params.token;
+
+  const passReset = useSelector((state) => state.passReset);
+  const { loading, error, message } = passReset;
+
+  useEffect(() => {}, [dispatch]);
+
   const resetPasswordHandler = () => {
-    alert(newPass + conPass);
+    dispatch(resetPassword(token, newPass, conPass));
   };
 
   return (
@@ -51,7 +63,18 @@ const CreateNewPassword = () => {
             </Button>
           </LinkContainer>
           <Row className="mt-3">
-            <Col></Col>
+            <Col>
+              {loading ? (
+                <Loader />
+              ) : error ? (
+                <Alert variant="danger">
+                  <i className="fas fa-exclamation-triangle"></i>
+                  {error}
+                </Alert>
+              ) : (
+                message && <Alert variant="success">{message}</Alert>
+              )}
+            </Col>
           </Row>
         </Col>
       </Row>

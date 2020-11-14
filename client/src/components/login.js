@@ -25,7 +25,7 @@ const Login = ({ history }) => {
   return (
     <Container>
       <Row className="mt-5 justify-content-center">
-        <Col md={4} className="m-3 p-3" style={{border: '1px solid #ddd'}}>
+        <Col md={4} className="m-3 p-3" style={{ border: '1px solid #ddd' }}>
           <Form>
             <h2>Login</h2>
             <Form.Group>
@@ -63,7 +63,12 @@ const Login = ({ history }) => {
           <Row className="mt-3">
             <Col>
               {loading && <Loader />}
-              {error && <Alert variant="danger">{error}</Alert>}
+              {error && (
+                <Alert variant="danger">
+                  <i className="fas fa-exclamation-triangle"></i>
+                  {` `+error}
+                </Alert>
+              )}
             </Col>
           </Row>
         </Col>

@@ -14,7 +14,7 @@ const App = () => {
       <Route path="/register" component={Register} />
       <Route path="/dash" component={Dashboard} />
       <Route path="/forgot-password" component={ForgotPassword} />
-      <Route path="/createNewPassword" component={CreateNewPassword} />
+      <Route path="/createNewPassword/:token" component={CreateNewPassword} />
     </>
   );
 };

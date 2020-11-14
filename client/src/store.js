@@ -1,7 +1,12 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { userLoginReducer, userRegisterReducer } from './reducer/userReducer';
+import {
+  passResetLinkReducer,
+  passResetReducer,
+  userLoginReducer,
+  userRegisterReducer,
+} from './reducer/userReducer';
 import {
   addTodoItemReducer,
   todoCompleteReducer,
@@ -22,6 +27,8 @@ const initialState = {
 const reducer = combineReducers({
   userRegister: userRegisterReducer,
   userLogin: userLoginReducer,
+  passResetLink: passResetLinkReducer,
+  passReset: passResetReducer,
   todoItems: todoItemsReducer,
   addTodoItem: addTodoItemReducer,
   todoComplete: todoCompleteReducer,
