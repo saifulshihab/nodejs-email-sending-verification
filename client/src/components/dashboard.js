@@ -95,7 +95,7 @@ const Dashboard = ({ history }) => {
 
   const completeHandler = (id) => {
     dispatch(completeTodo(id));
-    dispatch({ type: TODO_COMPLETE_RESET });
+    // dispatch({ type: TODO_COMPLETE_RESET });
   };
 
   const incompleteHandler = (id) => {
@@ -215,7 +215,7 @@ const Dashboard = ({ history }) => {
                     )}
                     <td style={{ textAlign: 'center', width: '20%' }}>
                       <Button
-                        onClick={() => completeHandler(todo._id)}
+                        onClick={() => completeHandler(todo._id && todo._id)}
                         className="mr-1"
                         variant="outline-success"
                         disabled={todo.done && true}

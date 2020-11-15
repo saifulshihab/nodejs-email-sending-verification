@@ -46,6 +46,8 @@ export const deleteTodo = asyncHandler(async (req, res) => {
 
 export const completeTodo = asyncHandler(async (req, res) => {
   const todo = await Todo.findById(req.params.id);
+  console.log(todo);
+  console.log(req.user);
   if (todo) {
     todo.done = true;
     const updatedTodo = await todo.save();
@@ -59,6 +61,7 @@ export const completeTodo = asyncHandler(async (req, res) => {
 });
 
 export const incompleteTodo = asyncHandler(async (req, res) => {
+  console.log('called');
   const todo = await Todo.findById(req.params.id);
   if (todo) {
     todo.done = false;

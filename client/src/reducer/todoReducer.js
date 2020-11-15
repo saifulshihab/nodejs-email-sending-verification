@@ -5,9 +5,7 @@ import {
   ADD_NEW_TODO_REQUEST,
   ADD_NEW_TODO_SUCCESS,
   ADD_NEW_TODO_FAIL,
-  TODO_COMPLETE,
   TODO_COMPLETE_FAIL,
-  TODO_INCOMPLETE,
   TODO_INCOMPLETE_FAIL,
   TODO_DELETE,
   TODO_DELETE_FAIL,
@@ -18,6 +16,10 @@ import {
   TODO_UPDATE_SUCCESS,
   TODO_UPDATE_FAIL,
   TODO_UPDATE_RESET,
+  TODO_COMPLETE_SUCCESS,
+  TODO_COMPLETE_REQUEST,
+  TODO_INCOMPLETE_REQUEST,
+  TODO_INCOMPLETE_SUCCESS,
 } from '../constants/todoConstant';
 
 export const todoItemsReducer = (state = { todos: [] }, action) => {
@@ -48,8 +50,10 @@ export const addTodoItemReducer = (state = {}, action) => {
 
 export const todoCompleteReducer = (state = {}, action) => {
   switch (action.type) {
-    case TODO_COMPLETE:
-      return { success: true };
+    case TODO_COMPLETE_REQUEST:
+      return { loading: true };
+    case TODO_COMPLETE_SUCCESS:
+      return { loading: false, success: true };
     case TODO_COMPLETE_FAIL:
       return { error: action.payload };
     case TODO_COMPLETE_RESET:
@@ -61,8 +65,10 @@ export const todoCompleteReducer = (state = {}, action) => {
 
 export const todoInCompleteReducer = (state = {}, action) => {
   switch (action.type) {
-    case TODO_INCOMPLETE:
-      return { success: true };
+    case TODO_INCOMPLETE_REQUEST:
+      return { loading: true };
+    case TODO_INCOMPLETE_SUCCESS:
+      return { loading: false, success: true };
     case TODO_INCOMPLETE_FAIL:
       return { error: action.payload };
     case TODO_INCOMPLETE_RESET:
