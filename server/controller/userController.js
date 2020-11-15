@@ -33,7 +33,7 @@ export const userRegister = asyncHandler(async (req, res) => {
       const url = `http://localhost:5000/api/users/verification/${token}`;
 
       const emailSent = await transporter.sendMail({
-        from: 'littlebitprogrammer@gmail.com',
+        from: process.env.EMAIL,
         to: email,
         subject: 'Email verification to complete your registration!',
         text: 'Email Verification',
