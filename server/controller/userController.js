@@ -30,7 +30,8 @@ export const userRegister = asyncHandler(async (req, res) => {
       const token = jwt.sign({ id: user._id }, process.env.EMAIL_SECRET, {
         expiresIn: '1d',
       });
-      const url = `http://localhost:5000/api/users/verification/${token}`;
+      // const url = `http://localhost:5000/api/users/verification/${token}`;       //localhost
+      const url = `${process.env.PROD_SERVER}/api/users/verification/${token}`;
 
       const emailSent = await transporter.sendMail({
         from: process.env.EMAIL,
@@ -93,7 +94,8 @@ export const userEmailVerify = asyncHandler(async (req, res) => {
   if (id) {
     const updatedUser = await User.findByIdAndUpdate(id, { confirmed: true });
     if (updatedUser) {
-      return res.redirect(`http://localhost:3000/login`);
+      // return res.redirect(`http://localhost:3000/login`);        // localhost
+      return res.redirect(`${process.env.PROD_CLIENT}/login`);         
     } else {
       res.status(404);
       throw new Error('User not found!');
@@ -122,7 +124,8 @@ export const getResetPasswordLink = asyncHandler(async (req, res) => {
       expiresIn: '30min',
     });
 
-    const url = `http://localhost:3000/createNewPassword/${token}`;
+    // const url = `http://localhost:3000/createNewPassword/${token}`;    //localhost
+    const url = `${process.env.PROD_CLIENT}/createNewPassword/${token}`;
 
     const emailSent = await transporter.sendMail({
       from: 'littlebitprogrammer@gmail.com',
