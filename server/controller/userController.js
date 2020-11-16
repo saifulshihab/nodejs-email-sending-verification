@@ -22,8 +22,8 @@ export const userRegister = asyncHandler(async (req, res) => {
         port: 465,
         secure: true,
         auth: {
-          user: process.env.EMAIL,
-          pass: process.env.PASS,
+          user: process.env.EMAIL,    // your email
+          pass: process.env.PASS,     // email pass, put them in .env file & turn the 'Less secure apps' option 'on' in gmail settings
         },
       });
 
