@@ -6,6 +6,4 @@
 <img src="assets/media/todo.gif" alt="gif" />
 <br/>
 
-[Live Site](https://merntodo.netlify.app)
-
 Show some ❤️ by ⭐ the project.
